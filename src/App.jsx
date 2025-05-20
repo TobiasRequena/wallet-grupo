@@ -6,6 +6,7 @@ import RutaProtegida from './routes/RutaProtegida';
 import RutaPublica from './routes/RutaPublica';
 import Dashboard from './pages/Dashboard';
 import RegistrarSesion from './pages/Sesión/RegistrarSesión';
+import Transferir from './pages/Transferir';
 
 function App() {
   const token = localStorage.getItem('token');
@@ -27,6 +28,14 @@ function App() {
           element={
             <RutaProtegida>
               <Dashboard />
+            </RutaProtegida>
+          }
+        />
+        <Route
+          path="/transferir"
+          element={
+            <RutaProtegida>
+              <Transferir />
             </RutaProtegida>
           }
         />
