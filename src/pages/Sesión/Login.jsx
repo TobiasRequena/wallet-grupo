@@ -41,7 +41,6 @@ const Login = () => {
       setData(respose)
 
       message.success('Inicio de sesión exitoso');
-      console.log(respose)
       localStorage.setItem('token', respose.data.success);
       localStorage.setItem('user', JSON.stringify(respose.data.user));
       navigate('/dashboard');

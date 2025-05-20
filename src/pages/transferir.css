@@ -1,5 +1,10 @@
 .transferir-container {
-  padding: 24px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f0f2f5;
 }
 
 .titulo-principal {
@@ -7,6 +12,13 @@
 }
 
 .transferir-card {
-  max-width: 500px;
+  width: 500px;
   margin: 0 auto;
+}
+
+.transferir-title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
