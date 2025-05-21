@@ -40,13 +40,12 @@ const Login = () => {
       const loginRespose = await axios(loginConfig);
       setData(loginRespose)
 
-      localStorage.setItem('token', loginRespose.data.success);
-      localStorage.setItem('user', JSON.stringify(loginRespose.data.user));
+      sessionStorage.setItem('token', loginRespose.data.success);
+      sessionStorage.setItem('user', JSON.stringify(loginRespose.data.user));
 
-      // 2. HISTORIAL DE TRANSACCIONES
       const historialConfig = {
         method: 'POST',
-        url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.HISTORIAL), // o Endpoints.getUrl(...) si lo tenés definido
+        url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.HISTORIAL),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,13 +58,9 @@ const Login = () => {
       const historialResponse = await axios(historialConfig);
 
       if (historialResponse.data.success) {
-        localStorage.setItem('transactions', JSON.stringify(historialResponse.data.transactions));
-        localStorage.setItem('balance', historialResponse.data.user.balance); // opcional
-      } else {
-        message.warning('Historial no disponible, pero inicio de sesión exitoso.');
+        sessionStorage.setItem('transactions', JSON.stringify(historialResponse.data.transactions));
+        sessionStorage.setItem('balance', historialResponse.data.user.balance);
       }
-
-      console.log("localStorage", JSON.parse(localStorage.getItem('transactions')));
 
       message.success('Inicio de sesión exitoso');
       navigate('/dashboard');

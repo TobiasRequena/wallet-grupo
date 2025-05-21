@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { Typography, Select, Input, Button, Card, Space, message, notification } from 'antd';
+import {
+  Typography,
+  Select,
+  Input,
+  Button,
+  Card,
+  Space,
+  message,
+  notification
+} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
 import { buscarUsuarios } from '../fetchs/transferenciaService';
 import axios from 'axios';
 import ModalTOTP from '../components globales/ModalTOTP';
-import './transferir.css';
-import Endpoints from '../API/Endpoints'
+import '../stilos/transferir.css';
+import Endpoints from '../API/Endpoints';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -14,118 +23,154 @@ const { Option } = Select;
 const Transferir = () => {
   const navigate = useNavigate();
 
-  const [alias, setAlias] = useState('');
+  const [aliasSeleccionado, setAliasSeleccionado] = useState('');
   const [monto, setMonto] = useState('');
   const [opciones, setOpciones] = useState([]);
   const [loading, setLoading] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [nombreDestino, setNombreDestino] = useState('');
-  const [usuarioDestino, setUsuarioDestino] = useState(null);
+  const [usuarioDestino, setUsuarioDestino] = useState('');
   const [descripcion, setDescripcion] = useState('');
 
-const handleTransferencia = () => {
-  const userData = localStorage.getItem('user');
-  if (!userData) {
-    alert('No se encontró la información del usuario actual.');
-    return;
-  }
+  const handleTransferencia = () => {
+    const userData = sessionStorage.getItem('user');
+    if (!userData) {
+      alert('No se encontró la información del usuario actual.');
+      return;
+    }
 
-  const usuarioActual = JSON.parse(userData);
+    const usuarioActual = JSON.parse(userData);
 
-  if (!usuarioDestino || !monto) {
-    return message.warning('Por favor, completa todos los campos.');
-  }
+    if (!usuarioDestino || !monto) {
+      return message.warning('Por favor, completa todos los campos.');
+    }
 
-  if (usuarioDestino.username === usuarioActual.username) {
-    return message.warning('No puedes transferirte a vos mismo.');
-  }
+    if (usuarioDestino.username === usuarioActual.username) {
+      return message.warning('No puedes transferirte a vos mismo.');
+    }
 
-  if (parseFloat(monto) <= 0) {
-    return message.warning('El monto debe ser mayor a cero.');
-  }
+    if (parseFloat(monto) <= 0) {
+      return message.warning('El monto debe ser mayor a cero.');
+    }
 
-  if (parseFloat(monto) > usuarioActual.balance) {
-    return message.warning('No tienes saldo suficiente para realizar esta transferencia.');
-  }
+    if (parseFloat(monto) > usuarioActual.balance) {
+      return message.warning(
+        'No tienes saldo suficiente para realizar esta transferencia.'
+      );
+    }
 
-  // Buscamos el nombre del destinatario para mostrarlo en el modal
-  const destinatario = opciones.find((user) => user.username === alias);
-  setNombreDestino(destinatario?.name || '');
-  setMostrarModal(true); // Mostramos el modal TOTP
-};
-
-const transferirRaulocoins = async ({ fromUsername, toUsername, amount, description, operationToken }) => {
-  const config = {
-    method: 'POST',
-    url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.TRANSFERIR),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: {
-      fromUsername,
-      toUsername,
-      amount,
-      description,
-      operationToken,
-    },
+    // Buscamos el nombre del destinatario para mostrarlo en el modal
+    const destinatario = opciones.find(
+      (user) => user.username === aliasSeleccionado
+    );
+    setNombreDestino(destinatario?.name || '');
+    setMostrarModal(true); // Mostramos el modal TOTP
   };
 
-  const response = await axios(config);
+  const transferirRaulocoins = async ({
+    fromUsername,
+    toUsername,
+    amount,
+    description,
+    operationToken
+  }) => {
+    const config = {
+      method: 'POST',
+      url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.TRANSFERIR),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        fromUsername,
+        toUsername,
+        amount,
+        description,
+        operationToken
+      }
+    };
 
-  if (response.status < 200 || response.status >= 300) {
-    throw new Error(response.data?.message || 'Error al realizar la transferencia');
-  }
+    const response = await axios(config);
 
-  return response.data;
-};
+    const historialConfig = {
+      method: 'POST',
+      url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.HISTORIAL),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        username: fromUsername,
+        totpToken: operationToken
+      }
+    };
 
+    const historialResponse = await axios(historialConfig);
 
+    if (historialResponse.data.success) {
+      sessionStorage.setItem(
+        'transactions',
+        JSON.stringify(historialResponse.data.transactions)
+      );
+      sessionStorage.setItem('balance', historialResponse.data.user.balance);
+    }
 
-const handleConfirmarTotp = async (totp) => {
-  const userData = localStorage.getItem('user');
-  if (!userData) {
-    message.error('No se encontró información del usuario actual.');
-    return;
-  }
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(
+        response.data?.message || 'Error al realizar la transferencia'
+      );
+    }
 
-  const usuarioActual = JSON.parse(userData);
+    return response.data;
+  };
 
-  try {
-    const resultado = await transferirRaulocoins({
-      fromUsername: usuarioActual.username,
-      toUsername: usuarioDestino.username,
-      amount: parseFloat(monto),
-      description: descripcion,
-      operationToken: totp
-    });
+  const handleConfirmarTotp = async (totp) => {
+    const userData = sessionStorage.getItem('user');
+    if (!userData) {
+      message.error('No se encontró información del usuario actual.');
+      return;
+    }
 
-    notification.success({
-      message: 'Transferencia exitosa',
-      description: resultado.message,
-      placement: 'topRight',
-    });
+    const usuarioActual = JSON.parse(userData);
 
-    // Actualizar el usuario en localStorage con el nuevo balance (opcional)
-    localStorage.setItem('user', JSON.stringify({
-      ...usuarioActual,
-      balance: resultado.transfer.from.newBalance
-    }));
+    try {
+      const resultado = await transferirRaulocoins({
+        fromUsername: usuarioActual.username,
+        toUsername: usuarioDestino.username,
+        amount: parseFloat(monto),
+        description: descripcion,
+        operationToken: totp
+      });
 
-    // Reset de estado
-    setMostrarModal(false);
-    setMonto('');
-    setAlias('');
-    setDescripcion('');
-    setUsuarioDestino(null);
-    setNombreDestino('');
-  } catch (error) {
-    notification.error({
-      message: 'Error en la transferencia',
-      description: error.message,
-      placement: 'topRight',
-    });
-  }
-};
+      notification.success({
+        message: 'Transferencia exitosa',
+        description: resultado.message,
+        placement: 'topRight'
+      });
+
+      // Actualizar el usuario en sessionStorage con el nuevo balance
+      sessionStorage.setItem(
+        'user',
+        JSON.stringify({
+          ...usuarioActual,
+          balance: resultado.transfer.from.newBalance
+        })
+      );
+
+      // Reset de estado
+      setMostrarModal(false);
+      setMonto('');
+      setDescripcion('');
+      setUsuarioDestino('');
+      setNombreDestino('');
+      setAliasSeleccionado('');
+      setOpciones([]); // opcional: limpiar resultados de búsqueda
+    } catch (error) {
+      notification.error({
+        message: 'Error en la transferencia',
+        description: error.message,
+        placement: 'topRight'
+      });
+    }
+  };
 
   const handleBuscarUsuarios = async (valor) => {
     if (valor.length < 3) {
@@ -140,29 +185,42 @@ const handleConfirmarTotp = async (totp) => {
   };
 
   return (
-    <div className="transferir-container">
-      <Title level={1} className="titulo-principal">RauloCoins</Title>
-      <Card className="transferir-card" bodyStyle={{ padding: 24 }}>
-        <div className="transferir-title">
-          <Title level={3} style={{ margin: 0 }}>Transferir</Title>
-          <Button color='primary' variant='outlined' icon={<HomeOutlined />} iconPosition="end" onClick={() => navigate('/dashboard')}>Inicio</Button> 
+    <div className='transferir-container'>
+      <Title level={1} className='titulo-principal'>
+        RauloCoins
+      </Title>
+      <Card className='transferir-card' bodyStyle={{ padding: 24 }}>
+        <div className='transferir-title'>
+          <Title level={3} style={{ margin: 0 }}>
+            Transferir
+          </Title>
+          <Button
+            icon={<HomeOutlined />}
+            onClick={() => navigate('/dashboard')}
+          >
+            Inicio
+          </Button>
         </div>
 
-        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Space direction='vertical' size='middle' style={{ width: '100%' }}>
           <div>
             <Title level={5}>Alias</Title>
             <Select
               showSearch
-              placeholder="Buscar alias"
+              placeholder='Buscar alias'
               onSearch={handleBuscarUsuarios}
               onChange={(value) => {
-                const user = opciones.find(u => u.username === value);
+                const user = opciones.find((u) => u.username === value);
                 setUsuarioDestino(user);
+                setAliasSeleccionado(value);
               }}
+              value={aliasSeleccionado}
               loading={loading}
               style={{ width: '100%' }}
               filterOption={false}
-              notFoundContent={loading ? 'Buscando...' : 'No se encontraron resultados'}
+              notFoundContent={
+                loading ? 'Buscando...' : 'No se encontraron resultados'
+              }
             >
               {opciones.map((user) => (
                 <Option key={user.username} value={user.username}>
@@ -175,23 +233,24 @@ const handleConfirmarTotp = async (totp) => {
           <div>
             <Title level={5}>Monto</Title>
             <Input
-              type="number"
-              placeholder="Monto a transferir"
+              type='number'
+              placeholder='Monto a transferir'
               value={monto}
-              onChange={e => setMonto(e.target.value)}
-            />
-          </div>
-          <div>
-            <Title level={5}>Descripcion</Title>
-            <Input
-              type="text"
-              placeholder="Monto a transferir"
-              value={descripcion}
-              onChange={e => setDescripcion(e.target.value)}
+              onChange={(e) => setMonto(e.target.value)}
             />
           </div>
 
-          <Button type="primary" block onClick={handleTransferencia}>
+          <div>
+            <Title level={5}>Descripción</Title>
+            <Input
+              type='text'
+              placeholder='Descripción de la transferencia'
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
+          </div>
+
+          <Button type='primary' block onClick={handleTransferencia}>
             Transferir
           </Button>
         </Space>
@@ -201,7 +260,7 @@ const handleConfirmarTotp = async (totp) => {
         visible={mostrarModal}
         onClose={() => setMostrarModal(false)}
         onConfirm={handleConfirmarTotp}
-        usuarioDestino={usuarioDestino ? usuarioDestino : {}}
+        usuarioDestino={usuarioDestino || {}}
         monto={monto}
       />
     </div>

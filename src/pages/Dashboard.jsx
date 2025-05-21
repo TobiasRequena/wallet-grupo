@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Typography, Button, Space, List, Avatar } from 'antd';
-import './dasboard.css';
+import '../stilos/dasboard.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { LogoutOutlined, WalletOutlined, DollarOutlined, ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
@@ -14,8 +14,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const storedTransactions = localStorage.getItem('transactions');
+    const storedUser = sessionStorage.getItem('user');
+    const storedTransactions = sessionStorage.getItem('transactions');
 
     if (storedUser) {
       try {
@@ -37,9 +37,9 @@ const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
-    localStorage.clear();
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('id');
+    sessionStorage.clear();
     navigate('/sesion/login');
   };
 
@@ -111,15 +111,20 @@ const Dashboard = () => {
           const fecha = moment.unix(item.createdAt).format('DD/MM/YYYY HH:mm');
 
           return (
-            <List.Item>
+            <List.Item onClick={() => navigate('/detalle-transacciones', { state: item })} style={{ cursor: 'pointer' }}>
               <List.Item.Meta
                 avatar={<Avatar icon={icon} />}
                 title={`${label} ${user}`}
-                description={fecha}
+                description={
+                  <>
+                    <div>{fecha}</div>
+                    <div style={{ fontStyle: 'italic', color: 'gray' }}>{item.description}</div>
+                  </>
+                }
               />
-              <div style={{ fontWeight: 'bold' }}>
-                {isReceived ? '+' : '-'}R$ {Math.abs(item.amount)}
-              </div>
+              <Text strong style={{ color: item.type === 'sent' ? 'red' : 'green' }}>
+                {isReceived ? '+' : '-'} R$ {Math.abs(item.amount)}
+              </Text>
             </List.Item>
           );
         }}

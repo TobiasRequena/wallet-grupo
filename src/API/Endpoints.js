@@ -3,7 +3,8 @@ const BASE_URL = 'https://raulocoin.onrender.com/api';
 const SESION = {
   LOGIN: 'user-details',
   REGISTER: 'register',
-  RECUPERAR: 'regenerate-totp'
+  RECUPERAR: 'regenerate-totp',
+  VERIFICAR: 'verify-totp-setup',
 };
 
 const TRANSFERENCIA = {

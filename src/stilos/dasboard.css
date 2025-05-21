@@ -41,9 +41,7 @@
 }
 
 .dashboard-card {
-  width: 500px;
-	/* padding-top: 8px !important; */
-	/* padding-left: 8px !important; */
+  width: 450px;
 }
 
 .dashboard-card-header {

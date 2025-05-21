@@ -7,11 +7,12 @@ import RutaPublica from './routes/RutaPublica';
 import Dashboard from './pages/Dashboard';
 import RegistrarSesion from './pages/Sesión/RegistrarSesión';
 import Transferir from './pages/Transferir';
+import DetalleMovimiento from './pages/DetalleMovimiento';
 
 function App() {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const isAuthenticated = token && token !== 'undefined' && token !== '';
-  console.log(localStorage);
+  console.log(sessionStorage);
 
   return (
     <Router>
@@ -20,7 +21,6 @@ function App() {
         <Route path="/sesion/login" element={<RutaPublica><Login /></RutaPublica>} />
         <Route path="/sesion/recuperar" element={<RutaPublica><Recuperar /></RutaPublica>} />
         <Route path="/sesion/registrar" element={<RutaPublica><RegistrarSesion /></RutaPublica>} />
-
 
         {/* Ruta protegida: solo entra si hay token */}
         <Route
@@ -36,6 +36,14 @@ function App() {
           element={
             <RutaProtegida>
               <Transferir />
+            </RutaProtegida>
+          }
+        />
+        <Route
+          path='/detalle-transacciones'
+          element={
+            <RutaProtegida>
+              <DetalleMovimiento />
             </RutaProtegida>
           }
         />
