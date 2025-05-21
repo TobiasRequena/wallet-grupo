@@ -25,7 +25,7 @@ const Login = () => {
 
     try{
       setLoading(true);
-      const config = {
+      const loginConfig = {
         method: 'POST',
         url: Endpoints.getUrl(Endpoints.SESION.LOGIN),
         headers: {
@@ -37,12 +37,37 @@ const Login = () => {
         },
       };
 
-      const respose = await axios(config);
-      setData(respose)
+      const loginRespose = await axios(loginConfig);
+      setData(loginRespose)
+
+      localStorage.setItem('token', loginRespose.data.success);
+      localStorage.setItem('user', JSON.stringify(loginRespose.data.user));
+
+      // 2. HISTORIAL DE TRANSACCIONES
+      const historialConfig = {
+        method: 'POST',
+        url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.HISTORIAL), // o Endpoints.getUrl(...) si lo tenés definido
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          username: alias,
+          totpToken: totp
+        },
+      };
+
+      const historialResponse = await axios(historialConfig);
+
+      if (historialResponse.data.success) {
+        localStorage.setItem('transactions', JSON.stringify(historialResponse.data.transactions));
+        localStorage.setItem('balance', historialResponse.data.user.balance); // opcional
+      } else {
+        message.warning('Historial no disponible, pero inicio de sesión exitoso.');
+      }
+
+      console.log("localStorage", JSON.parse(localStorage.getItem('transactions')));
 
       message.success('Inicio de sesión exitoso');
-      localStorage.setItem('token', respose.data.success);
-      localStorage.setItem('user', JSON.stringify(respose.data.user));
       navigate('/dashboard');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);

@@ -21,6 +21,7 @@ const Transferir = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [nombreDestino, setNombreDestino] = useState('');
   const [usuarioDestino, setUsuarioDestino] = useState(null);
+  const [descripcion, setDescripcion] = useState('');
 
 const handleTransferencia = () => {
   const userData = localStorage.getItem('user');
@@ -94,7 +95,7 @@ const handleConfirmarTotp = async (totp) => {
       fromUsername: usuarioActual.username,
       toUsername: usuarioDestino.username,
       amount: parseFloat(monto),
-      description: 'Transferencia desde la interfaz',
+      description: descripcion,
       operationToken: totp
     });
 
@@ -114,6 +115,7 @@ const handleConfirmarTotp = async (totp) => {
     setMostrarModal(false);
     setMonto('');
     setAlias('');
+    setDescripcion('');
     setUsuarioDestino(null);
     setNombreDestino('');
   } catch (error) {
@@ -177,6 +179,15 @@ const handleConfirmarTotp = async (totp) => {
               placeholder="Monto a transferir"
               value={monto}
               onChange={e => setMonto(e.target.value)}
+            />
+          </div>
+          <div>
+            <Title level={5}>Descripcion</Title>
+            <Input
+              type="text"
+              placeholder="Monto a transferir"
+              value={descripcion}
+              onChange={e => setDescripcion(e.target.value)}
             />
           </div>
 
