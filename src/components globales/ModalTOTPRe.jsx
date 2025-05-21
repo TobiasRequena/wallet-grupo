@@ -47,7 +47,7 @@ const ModalTOTPRe = ({ visible, onClose, username, totpSetup, onSuccess }) => {
       setData(loginRespose)
 
       sessionStorage.setItem('token', loginRespose.data.success);
-      sessionStorage.setItem('user', JSON.stringify(loginRespose.data.user));
+      sessionStorage.setItem('user', JSON.stringify(loginRespose.data));
 
       if (response.data.success) {
         message.success(response.data.message);

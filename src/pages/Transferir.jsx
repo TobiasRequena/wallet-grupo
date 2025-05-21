@@ -7,7 +7,8 @@ import {
   Card,
   Space,
   message,
-  notification
+  notification,
+  Spin
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
@@ -31,6 +32,7 @@ const Transferir = () => {
   const [nombreDestino, setNombreDestino] = useState('');
   const [usuarioDestino, setUsuarioDestino] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [loadingConfirmacion, setLoadingConfirmacion] = useState(false);
 
   const handleTransferencia = () => {
     const userData = sessionStorage.getItem('user');
@@ -45,7 +47,7 @@ const Transferir = () => {
       return message.warning('Por favor, completa todos los campos.');
     }
 
-    if (usuarioDestino.username === usuarioActual.username) {
+    if (usuarioDestino.username === usuarioActual.user.username) {
       return message.warning('No puedes transferirte a vos mismo.');
     }
 
@@ -53,7 +55,7 @@ const Transferir = () => {
       return message.warning('El monto debe ser mayor a cero.');
     }
 
-    if (parseFloat(monto) > usuarioActual.balance) {
+    if (parseFloat(monto) > usuarioActual.user.balance) {
       return message.warning(
         'No tienes saldo suficiente para realizar esta transferencia.'
       );
@@ -124,6 +126,7 @@ const Transferir = () => {
 
   const handleConfirmarTotp = async (totp) => {
     const userData = sessionStorage.getItem('user');
+
     if (!userData) {
       message.error('No se encontró información del usuario actual.');
       return;
@@ -131,9 +134,11 @@ const Transferir = () => {
 
     const usuarioActual = JSON.parse(userData);
 
+    setLoadingConfirmacion(true);
+
     try {
       const resultado = await transferirRaulocoins({
-        fromUsername: usuarioActual.username,
+        fromUsername: usuarioActual.user.username,
         toUsername: usuarioDestino.username,
         amount: parseFloat(monto),
         description: descripcion,
@@ -150,25 +155,30 @@ const Transferir = () => {
       sessionStorage.setItem(
         'user',
         JSON.stringify({
-          ...usuarioActual,
+          ...usuarioActual.user,
           balance: resultado.transfer.from.newBalance
         })
       );
 
       // Reset de estado
-      setMostrarModal(false);
       setMonto('');
       setDescripcion('');
       setUsuarioDestino('');
       setNombreDestino('');
       setAliasSeleccionado('');
-      setOpciones([]); // opcional: limpiar resultados de búsqueda
+      setOpciones([]);
+
+      return true;
     } catch (error) {
       notification.error({
         message: 'Error en la transferencia',
         description: error.message,
         placement: 'topRight'
       });
+
+      return false;
+    } finally{
+      setLoadingConfirmacion(false);
     }
   };
 
@@ -189,6 +199,11 @@ const Transferir = () => {
       <Title level={1} className='titulo-principal'>
         RauloCoins
       </Title>
+      {loadingConfirmacion ? (
+        <div className="loading-container">
+          <Spin size="large" tip="Procesando transferencia..." />
+        </div>
+      ) : (
       <Card className='transferir-card' bodyStyle={{ padding: 24 }}>
         <div className='transferir-title'>
           <Title level={3} style={{ margin: 0 }}>
@@ -255,6 +270,7 @@ const Transferir = () => {
           </Button>
         </Space>
       </Card>
+      )}
 
       <ModalTOTP
         visible={mostrarModal}

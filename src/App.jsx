@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import RegistrarSesion from './pages/Sesión/RegistrarSesión';
 import Transferir from './pages/Transferir';
 import DetalleMovimiento from './pages/DetalleMovimiento';
+import DatosUser from './pages/DatosUser';
 
 function App() {
   const token = sessionStorage.getItem('token');
@@ -44,6 +45,15 @@ function App() {
           element={
             <RutaProtegida>
               <DetalleMovimiento />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/datos-user/:nombre"
+          element={
+            <RutaProtegida>
+              <DatosUser />
             </RutaProtegida>
           }
         />

@@ -41,7 +41,7 @@ const Login = () => {
       setData(loginRespose)
 
       sessionStorage.setItem('token', loginRespose.data.success);
-      sessionStorage.setItem('user', JSON.stringify(loginRespose.data.user));
+      sessionStorage.setItem('user', JSON.stringify(loginRespose.data));
 
       const historialConfig = {
         method: 'POST',

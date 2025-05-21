@@ -47,6 +47,10 @@ const Dashboard = () => {
 		navigate('/transferir');
 	}
 
+  const handleDatos = () => {
+    navigate(`/datos-user/${data.user.name}`, { state: data });
+  }
+
   const handleVerMas = () => {
     setVisibleCount(prev => prev + 3);
   };
@@ -60,7 +64,7 @@ const Dashboard = () => {
       <div className="dashboard-card-container">
         <div className="dashboard-top-bar">
           <span className="dashboard-greeting">
-            {data ? `Hola, ${data.name}!` : 'Cargando...'}
+            {data ? `Hola, ${data.user.name}!` : 'Cargando...'}
           </span>
           <Button 
             type="default" 
@@ -81,7 +85,7 @@ const Dashboard = () => {
 
           <div className="dashboard-balance">
             <Title level={1} style={{ margin: '0' }}>
-              {data ? `R$ ${data.balance}` : 'Cargando...'}
+              {data ? `R$ ${data.user.balance}` : 'Cargando...'}
             </Title>
 						<DollarOutlined style={{ color: 'green', fontSize: '38px' }}/>
           </div>
@@ -89,7 +93,7 @@ const Dashboard = () => {
           <div className="dashboard-actions">
             <Space size="middle">
               <Button type="primary" onClick={handleTransferir}>Transferir</Button>
-              <Button>Ver datos</Button>
+              <Button onClick={handleDatos}>Ver datos</Button>
             </Space>
           </div>
         </Card>

@@ -22,3 +22,11 @@
   align-items: center;
   margin-bottom: 16px;
 }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* O el alto que prefieras */
+}
+
