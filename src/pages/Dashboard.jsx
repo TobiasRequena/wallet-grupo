@@ -64,8 +64,9 @@ const Dashboard = () => {
       <div className="dashboard-card-container">
         <div className="dashboard-top-bar">
           <span className="dashboard-greeting">
-            {data ? `Hola, ${data.user.name}!` : 'Cargando...'}
+            {data ? `Hola, ${data.user?.name}!` : 'Cargando...'}
           </span>
+          {console.log(data)}
           <Button 
             type="default" 
 						color='danger'
