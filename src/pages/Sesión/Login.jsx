@@ -83,7 +83,7 @@ const Login = () => {
           <Title level={5} className="login-label">TOTP</Title>
           <Input.OTP placeholder="TOTP" value={totp} onChange={setTotp}/>
 
-          <Button type="default" block className="auth0-button">
+          <Button style={{ cursor: 'not-allowed' }} disabled type="default" block className="auth0-button">
             Ingresar con Auth0
           </Button>
 

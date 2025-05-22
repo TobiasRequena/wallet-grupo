@@ -83,7 +83,7 @@ const RegistrarSesion = () => {
             onChange={(e) => handleChange('email', e.target.value)}
           />
 
-          <Button type="default" block className="auth0-button">
+          <Button type="default" block className="auth0-button" style={{ cursor: 'not-allowed' }} disabled>
             Registrarse con Auth0
           </Button>
 
