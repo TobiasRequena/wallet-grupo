@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './login.css'
 import { Card, Input, Button, Typography, Space, message } from 'antd';
 import { Link } from 'react-router-dom';
-import './Login.css'; // Estilos separados
 import Endpoints from '../../API/Endpoints'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
