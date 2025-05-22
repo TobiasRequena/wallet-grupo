@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ModalTOTPRe from '../../components globales/ModalTOTPRe';
 import Endpoints from '../../API/Endpoints';
-import './Login.css';
 import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;

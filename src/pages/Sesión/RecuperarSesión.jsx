@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Typography, Space, message } from 'antd';
 import { Link } from 'react-router-dom';
-import './Login.css';
 import axios from 'axios';
 import Endpoints from '../../API/Endpoints';
 import ModalTOTPRe from '../../components globales/ModalTOTPRe';
