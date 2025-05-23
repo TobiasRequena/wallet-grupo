@@ -33,7 +33,7 @@ const ModalTOTP = ({ visible, onClose, onConfirm, usuarioDestino, monto }) => {
       </Text>
 
       <div style={{ marginTop: 20 }}>
-        <Title level={5}>Código TOTP</Title>
+        <h5 className='title-h5'>Código TOTP</h5>
         <Input.OTP
           placeholder='Ingresa el código de autenticación'
           value={totp}

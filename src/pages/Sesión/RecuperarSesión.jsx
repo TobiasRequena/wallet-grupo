@@ -42,14 +42,13 @@ const RecuperarSesion = () => {
 
   return (
     <div className="login-container">
+      <h1 className="title-h1">RauloCoins</h1>
       <Card className="login-card">
-        <Title level={1} className="login-title">RauloCoins</Title>
-        <Title level={3} className="login-subtitle">Recuperar sesión</Title>
-
+        <h3 className="title-h3">Recuperar sesión</h3>
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
-          <Title level={5} className="login-label">Alias</Title>
+          <h5 className="title-h5">Alias</h5>
           <Input value={alias} onChange={(e) => setAlias(e.target.value)} placeholder="Alias" />
-          <Title level={5} className="login-label">Email</Title>
+          <h5 className="title-h5">Email</h5>
           <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" />
 
           <Button type="primary" block className="recovery-button" onClick={handleRecuperar}>

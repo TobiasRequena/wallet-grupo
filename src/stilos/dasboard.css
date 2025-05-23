@@ -50,10 +50,19 @@
 
 .dashboard-balance {
   text-align: left;
-  margin: 24px 0;
+  margin: 12px 0;
 	flex-direction: row;
 	display: flex;
 	justify-content: space-between;
+}
+
+.title-h1-balance{
+	text-align: center;
+  margin-bottom: 0.5em;
+	font-family: "Inclusive Sans", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 36px;
 }
 
 .dashboard-actions {

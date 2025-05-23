@@ -100,7 +100,7 @@ const ModalTOTPRe = ({ visible, onClose, username, totpSetup, onSuccess }) => {
         </div>
       </div>
 
-      <Title level={5}>Código TOTP</Title>
+      <h5 className='title-h5'>Código TOTP</h5>
       <Input.OTP
         placeholder="Ingresa el código de 6 dígitos"
         value={totp}

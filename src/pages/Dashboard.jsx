@@ -58,36 +58,35 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <Title level={1} className="dashboard-title">RauloCoins</Title>
+        <h1 className="title-h1">RauloCoins</h1>
       </div>
 
       <div className="dashboard-card-container">
         <div className="dashboard-top-bar">
-          <span className="dashboard-greeting">
+          <h6 className="title-h6" strong>
             {data ? `Hola, ${data.user?.name}!` : 'Cargando...'}
-          </span>
+          </h6>
           {console.log(data)}
           <Button 
             type="default" 
 						color='danger'
-						variant='outlined'
+						variant='filled'
             onClick={handleLogout} 
             icon={<LogoutOutlined style={{ color: 'red' }} />} 
             iconPosition="end"
           >
-            Salir
           </Button>
         </div>
 
         <Card className="dashboard-card" bodyStyle={{ padding: '12px' }}>
           <div className="dashboard-card-header">
-            <Text strong>Cuenta en Raulos</Text>
+            <h6 className='title-h6' strong>Cuenta en Raulos</h6>
           </div>
 
           <div className="dashboard-balance">
-            <Title level={1} style={{ margin: '0' }}>
+            <h1 className='title-h1-balance' style={{ margin: '0' }}>
               {data ? `R$ ${data.user.balance}` : 'Cargando...'}
-            </Title>
+            </h1>
 						<DollarOutlined style={{ color: 'green', fontSize: '38px' }}/>
           </div>
 
@@ -102,7 +101,7 @@ const Dashboard = () => {
 
       <Card className="dashboard-card" style={{ marginTop: '20px' }} bodyStyle={{ padding: '12px' }}>
         <div className="dashboard-card-header">
-          <Text strong>Movimientos recientes</Text>
+          <h6 className='title-h6' strong>Movimientos recientes</h6>
         </div>
 
       <List
@@ -111,7 +110,7 @@ const Dashboard = () => {
         renderItem={item => {
           const isReceived = item.type === 'received';
           const icon = isReceived ? <ArrowDownOutlined style={{ color: 'green' }} /> : <ArrowUpOutlined style={{ color: 'red' }} />;
-          const user = isReceived ? item.fromUsername : item.toUsername;
+          const user = isReceived ? item.fromName : item.toName;
           const label = isReceived ? 'Transferencia recibida de' : 'Transferencia enviada a';
           const fecha = moment.unix(item.createdAt).format('DD/MM/YYYY HH:mm');
 

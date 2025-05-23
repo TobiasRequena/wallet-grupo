@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Typography, Avatar, Tag, Button } from 'antd';
-import { UserOutlined, MailOutlined, CheckCircleOutlined, ClockCircleOutlined, DollarOutlined, HomeOutlined, CopyOutlined } from '@ant-design/icons';
+import {TeamOutlined, UserOutlined, MailOutlined, CheckCircleOutlined, ClockCircleOutlined, DollarOutlined, HomeOutlined, CopyOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import '../stilos/datos.css'
 
 const { Title, Text } = Typography;
 
@@ -35,21 +36,27 @@ const DatosUser = () => {
     <div className="dashboard-container">
     <div style={{ maxWidth: 500, margin: '0 auto', marginTop: 20 }}>
       <div className="dashboard-header">
-        <Title level={1} className="dashboard-title">RauloCoins</Title>
-        <Button
-            icon={<HomeOutlined />}
-            onClick={handleHome}
-            style={{ marginBottom: 8}}
-          >
-            Inicio
-          </Button>
+        <h1 className="title-h1">RauloCoins</h1>
       </div>
 
-      <Card title="Datos de Usuario" bordered={true}>
+        <Card
+          title="Datos de Usuario"
+          className='datos-container'
+          bordered={true}
+          extra={
+            <Button
+              icon={<HomeOutlined />}
+              onClick={handleHome}
+              color="black" 
+              variant="outlined"
+            >
+            </Button>
+          }
+        >
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
           <Avatar size={64} icon={<UserOutlined />} />
           <div style={{ marginLeft: 16 }}>
-            <Title level={4} style={{ margin: 0 }}>{user.name}</Title>
+            <h4 className='title-h4'>{user.name}</h4>
             <Text copyable={{
               text: user.username,
               tooltips: `${user.username}`,
@@ -64,6 +71,7 @@ const DatosUser = () => {
         </div>
 
         <div style={{ marginBottom: 8 }}>
+          <TeamOutlined style={{ marginRight: 8 }}/>
           <Text strong>Tipo de Usuario:</Text> <Tag color="blue">{user.userType}</Tag>
         </div>
 

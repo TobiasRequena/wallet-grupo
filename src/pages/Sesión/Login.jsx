@@ -73,14 +73,14 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <Card className="login-card">
-        <Title level={1} className="login-title">RauloCoins</Title>
-        <Title level={3} className="login-subtitle">Ingresar</Title>
+      <h1 className="login-title title-h1">RauloCoins</h1>
+      <Card className="login-card" bodyStyle={{ padding: '12px' }}>
+        <h3 className="title-h3">INGRESAR</h3>
 
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
-          <Title level={5} className="login-label">Alias</Title>
+          <h5 className="title-h5">Alias</h5>
           <Input placeholder="Alias" value={alias} onChange={(e) => setAlias(e.target.value)}/>
-          <Title level={5} className="login-label">TOTP</Title>
+          <h5 className="title-h5">TOTP</h5>
           <Input.OTP placeholder="TOTP" value={totp} onChange={setTotp}/>
 
           <Button style={{ cursor: 'not-allowed' }} disabled type="default" block className="auth0-button">

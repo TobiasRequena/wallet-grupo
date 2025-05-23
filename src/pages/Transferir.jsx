@@ -31,7 +31,7 @@ const Transferir = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [nombreDestino, setNombreDestino] = useState('');
   const [usuarioDestino, setUsuarioDestino] = useState('');
-  const [descripcion, setDescripcion] = useState('');
+  const [descripcion, setDescripcion] = useState('Varios');
   const [loadingConfirmacion, setLoadingConfirmacion] = useState(false);
 
   const handleTransferencia = () => {
@@ -201,9 +201,7 @@ const Transferir = () => {
 
   return (
     <div className='transferir-container'>
-      <Title level={1} className='titulo-principal'>
-        RauloCoins
-      </Title>
+      <h1 className='title-h1'>RauloCoins</h1>
       {loadingConfirmacion ? (
         <div className="loading-container">
           <Spin size="large" tip="Procesando transferencia..." />
@@ -211,20 +209,19 @@ const Transferir = () => {
       ) : (
       <Card className='transferir-card' bodyStyle={{ padding: 24 }}>
         <div className='transferir-title'>
-          <Title level={3} style={{ margin: 0 }}>
-            Transferir
-          </Title>
+          <h3 className='title-h3' style={{ margin: 0 }}>
+            TRANSFERIR
+          </h3>
           <Button
             icon={<HomeOutlined />}
             onClick={() => navigate('/dashboard')}
           >
-            Inicio
           </Button>
         </div>
 
         <Space direction='vertical' size='middle' style={{ width: '100%' }}>
           <div>
-            <Title level={5}>Alias</Title>
+            <h5 className='title-h5'>Alias</h5>
             <Select
               showSearch
               placeholder='Buscar alias'
@@ -251,7 +248,7 @@ const Transferir = () => {
           </div>
 
           <div>
-            <Title level={5}>Monto</Title>
+            <h5 className='title-h5'>Monto</h5>
             <Input
               type='number'
               placeholder='Monto a transferir'
@@ -261,7 +258,7 @@ const Transferir = () => {
           </div>
 
           <div>
-            <Title level={5}>Descripción</Title>
+            <h5 className='title-h5'>Descripción</h5>
             <Input
               type='text'
               placeholder='Descripción de la transferencia'

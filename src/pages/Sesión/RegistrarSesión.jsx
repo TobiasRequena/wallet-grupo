@@ -56,26 +56,26 @@ const RegistrarSesion = () => {
 
   return (
     <div className="login-container">
+      <h1 className="title-h1">RauloCoins</h1>
       <Card className="login-card">
-        <Title level={1} className="login-title">RauloCoins</Title>
-        <Title level={3} className="login-subtitle">Registrarse</Title>
+        <h3 className="title-h3">REGISTRARSE</h3>
 
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
-          <Title level={5} className="login-label">Nombre Completo</Title>
+          <h5 className="title-h5">Nombre Completo</h5>
           <Input
             placeholder="Nombre Completo"
             value={form.name}
             onChange={(e) => handleChange('name', e.target.value)}
           />
 
-          <Title level={5} className="login-label">Alias</Title>
+          <h5 className="title-h5">Alias</h5>
           <Input
             placeholder="Alias"
             value={form.username}
             onChange={(e) => handleChange('username', e.target.value)}
           />
 
-          <Title level={5} className="login-label">Email</Title>
+          <h5 className="title-h5">Email</h5>
           <Input
             placeholder="Email"
             type="email"
