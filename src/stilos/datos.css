@@ -1,3 +1,37 @@
-.datos-container{
-	width: 450px;
+.datos-container {
+  width: 450px;
+}
+
+.datos-container {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  /* Otros estilos que ya tengas */
+}
+
+/* Difuminado en los bordes */
+.datos-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: 0 0 40px 20px rgba(34, 34, 34, 0.18),
+    /* sombra difusa más fuerte */ 0 0 0 8px #fff inset;
+  z-index: 2;
+}
+
+.dashboard-header {
+  margin-bottom: 20px !important;
+}
+
+.title-h1 {
+  color: #bb0a21 !important;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
 }

@@ -1,30 +1,56 @@
 .dashboard-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	min-height: 100vh;
-	background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  /* background-color: #f0f2f5; */
   padding: 24px;
 }
 
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-	flex-direction: column;
-	width: 100%;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+}
+.dashboard-header img {
+  width: 50px;
+  height: 50px;
+  margin-right: 16px;
+}
+
+.img-profile {
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
 }
 
 .dashboard-title {
   margin-bottom: 0;
 }
 
+.title-h6 {
+  font-size: 30px;
+  font-weight: 600;
+  font-family: "Inclusive Sans", sans-serif;
+  color: #bb0a21;
+}
+
 .dashboard-top-bar {
   display: flex;
-  align-items: center;
-	justify-content: space-between;
+  align-items: end;
+  justify-content: flex-end;
   gap: 16px;
+  width: 100%;
+  right: 50px;
+  position: relative;
 }
 
 .dashboard-greeting {
@@ -32,16 +58,17 @@
   font-weight: 500;
 }
 
-.dashboard-card-container{
-	height: min-content;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 4px;
+.dashboard-card-container {
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px;
 }
 
 .dashboard-card {
-  width: 450px;
+  width: 500px;
 }
 
 .dashboard-card-header {
@@ -51,20 +78,100 @@
 .dashboard-balance {
   text-align: left;
   margin: 12px 0;
-	flex-direction: row;
-	display: flex;
-	justify-content: space-between;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
 }
 
-.title-h1-balance{
-	text-align: center;
+.title-h1-balance {
+  text-align: center;
   margin-bottom: 0.5em;
-	font-family: "Inclusive Sans", sans-serif;
-  font-weight: 600;
-  font-style: normal;
+  font-family: "Inclusive Sans", sans-serif;
   font-size: 36px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .dashboard-actions {
   text-align: center;
+}
+
+/* Botones de transferencia, recibir y perfil*/
+.send-transfer,
+.get-transfer,
+.go-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; /* Aumenta el tamaño si quieres más borde */
+  height: 48px;
+  border-radius: 50%;
+  background-color: #2563eb; /* Azul */
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  /* El borde azul externo ya está con el background */
+}
+
+.circle-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; /* Más pequeño que el btn */
+  height: 36px;
+  border-radius: 50%;
+  background: #fff; /* Círculo blanco interno */
+  color: #2563eb; /* Cambia el color del icono si quieres */
+  font-size: 24px;
+}
+
+/* botones del home */
+.send-transfer-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 40px;
+  background-color: #2563eb;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Contenido de tabla de transaccion */
+
+.transaction-amount {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.transaction-icon-text {
+  display: flex;
+  align-items: center;
+}
+
+.p-transaction {
+  margin-bottom: 8px !important;
+}
+
+/* Btn para ver historial */
+.btn-see-historial {
+  display: flex;
+  width: 150px;
+  height: 40px;
+  background-color: #2563eb; /* Azul */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
 }
