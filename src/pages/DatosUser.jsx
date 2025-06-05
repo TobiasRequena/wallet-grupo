@@ -52,19 +52,22 @@ const DatosUser = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div style={{ maxWidth: 500, margin: "0 auto", marginTop: 20 }}>
+    <div className="dashboard-container user-profile-bg">
+      <div className="user-profile-wrapper">
         <div className="dashboard-header">
           <h1 className="title-h1">Perfil del usuario</h1>
         </div>
 
-        <Card title="" className="datos-container">
-          <div
-            style={{ display: "flex", alignItems: "center", marginBottom: 16 }}
-          >
-            <Avatar size={64} icon={<UserOutlined />} />
-            <div style={{ marginLeft: 16 }}>
-              <h4 className="title-h4">{user.name}</h4>
+        <Card className="datos-container user-profile-card" bordered={false}>
+          <div className="user-profile-header">
+            <Avatar size={96} icon={<UserOutlined />} />
+            <div style={{ marginLeft: 24 }}>
+              <h2
+                className="title-h4"
+                style={{ fontSize: 28, marginBottom: 4 }}
+              >
+                {user.name}
+              </h2>
               <Text
                 copyable={{
                   text: user.username,
@@ -72,63 +75,66 @@ const DatosUser = () => {
                   icon: <CopyOutlined style={{ color: "black" }} />,
                 }}
                 type="secondary"
+                style={{ fontSize: 18 }}
               >
                 @{user.username}
               </Text>
             </div>
           </div>
 
-          <div style={{ marginBottom: 8 }}>
-            <MailOutlined style={{ marginRight: 8 }} />
-            <Text strong>Email:</Text> <Text>{user.email}</Text>
+          <div className="user-profile-info">
+            <div>
+              <MailOutlined style={{ marginRight: 8 }} />
+              <Text strong>Email:</Text> <Text>{user.email}</Text>
+            </div>
+            <div>
+              <TeamOutlined style={{ marginRight: 8 }} />
+              <Text strong>Tipo de Usuario:</Text>{" "}
+              <Tag color="blue">{user.userType}</Tag>
+            </div>
+            <div>
+              <CheckCircleOutlined
+                style={{
+                  marginRight: 8,
+                  color: user.isVerified ? "green" : "red",
+                }}
+              />
+              <Text strong>Cuenta Verificada:</Text>{" "}
+              <Text>{user.isVerified ? "Sí" : "No"}</Text>
+            </div>
+            <div>
+              <CheckCircleOutlined
+                style={{
+                  marginRight: 8,
+                  color: user.totpVerified ? "green" : "red",
+                }}
+              />
+              <Text strong>2FA Verificada:</Text>{" "}
+              <Text>{user.totpVerified ? "Sí" : "No"}</Text>
+            </div>
+            <div>
+              <ClockCircleOutlined style={{ marginRight: 8 }} />
+              <Text strong>Cuenta creada el:</Text>{" "}
+              <Text>
+                {moment.unix(user.createdAt).format("DD/MM/YYYY HH:mm")}
+              </Text>
+            </div>
           </div>
-
-          <div style={{ marginBottom: 8 }}>
-            <TeamOutlined style={{ marginRight: 8 }} />
-            <Text strong>Tipo de Usuario:</Text>{" "}
-            <Tag color="blue">{user.userType}</Tag>
-          </div>
-
-          <div style={{ marginBottom: 8 }}>
-            <CheckCircleOutlined
-              style={{
-                marginRight: 8,
-                color: user.isVerified ? "green" : "red",
-              }}
-            />
-            <Text strong>Cuenta Verificada:</Text>{" "}
-            <Text>{user.isVerified ? "Sí" : "No"}</Text>
-          </div>
-
-          <div style={{ marginBottom: 8 }}>
-            <CheckCircleOutlined
-              style={{
-                marginRight: 8,
-                color: user.totpVerified ? "green" : "red",
-              }}
-            />
-            <Text strong>2FA Verificada:</Text>{" "}
-            <Text>{user.totpVerified ? "Sí" : "No"}</Text>
-          </div>
-
-          <div style={{ marginBottom: 8 }}>
-            <ClockCircleOutlined style={{ marginRight: 8 }} />
-            <Text strong>Cuenta creada el:</Text>{" "}
-            <Text>
-              {moment.unix(user.createdAt).format("DD/MM/YYYY HH:mm")}
-            </Text>
-          </div>
-          <div className="btn">
+          <div className="btn user-profile-btns">
             <Button
               className="btn-editar-pass"
               onClick={() => navigate("/cambiar-password")}
               style={{
-                marginRight: 8,
+                marginRight: 16,
                 backgroundColor: "#bb0a21",
                 color: "white",
                 border: "none",
+                fontSize: 16,
+                height: 48,
+                padding: "0 32px",
               }}
               icon={<LockOutlined />}
+              size="large"
             >
               Cambiar Contraseña
             </Button>
@@ -137,6 +143,8 @@ const DatosUser = () => {
               type="primary"
               onClick={() => handleRoute("/dashboard")}
               icon={<ArrowLeftOutlined />}
+              size="large"
+              style={{ height: 48, padding: "0 32px" }}
             >
               Volver al Inicio
             </Button>
