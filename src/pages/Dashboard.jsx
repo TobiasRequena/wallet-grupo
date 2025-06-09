@@ -107,7 +107,7 @@ const Dashboard = () => {
           <div className="dashboard-card">
             <div className="dashboard-card-header">
               <h6 className="title-h6">
-                Tu saldo actual <EyeFilled style={{ color: "#BB0A21" }} />
+                Tu Balance <EyeFilled style={{ color: "#BB0A21" }} />
               </h6>
             </div>
 
@@ -189,9 +189,6 @@ const Dashboard = () => {
                     description={
                       <>
                         <div>{fecha}</div>
-                        <div style={{ fontStyle: "italic", color: "gray" }}>
-                          {item.description}
-                        </div>
                       </>
                     }
                   />

@@ -5,6 +5,7 @@
   flex-direction: column;
   min-height: 100vh;
   /* background-color: #f0f2f5; */
+  box-sizing: border-box;
   padding: 24px;
 }
 
@@ -174,4 +175,114 @@
   border: none;
   border-radius: 50px;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .dashboard-container {
+    min-height: 100dvh;
+    height: 100dvh;
+    width: 100vw;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: #fff; /* o el color de fondo que prefieras */
+  }
+
+  .dashboard-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 16px 8px 16px;
+    gap: 12px;
+    width: 100vw;
+  }
+
+  .dashboard-header img {
+    width: 56px;
+    height: 56px;
+    margin-right: 0;
+  }
+
+  .dashboard-card-container,
+  .dashboard-card {
+    width: 100vw !important;
+    max-width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    align-items: stretch;
+  }
+
+  .dashboard-card {
+    margin: 0;
+    box-shadow: none;
+    padding: 16px 8px;
+  }
+
+  .dashboard-card-header {
+    font-size: 1.2em;
+    padding: 0 8px;
+  }
+
+  .dashboard-balance {
+    margin: 20px 0;
+    font-size: 2em;
+    justify-content: flex-start;
+    padding: 0 8px;
+  }
+
+  .title-h1-balance {
+    font-size: 2.2em;
+    gap: 16px;
+  }
+
+  .dashboard-actions {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0;
+    margin: 24px 0 16px 0;
+    padding: 0 8px;
+    width: 100vw;
+  }
+
+  .send-transfer,
+  .get-transfer,
+  .go-profile {
+    font-size: 1.1em;
+    gap: 8px;
+  }
+
+  .circle-btn {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+
+  .circle-inner {
+    width: 48px;
+    height: 48px;
+    font-size: 28px;
+  }
+
+  .btn-see-historial {
+    width: 100%;
+    min-width: 0;
+    font-size: 1.1em;
+    height: 48px;
+    margin: 16px 0 0 0;
+    border-radius: 24px;
+  }
+
+  .dashboard-title,
+  .title-h6,
+  .dashboard-header h1 {
+    font-size: 1.3em !important;
+    text-align: left;
+    margin: 0;
+  }
 }

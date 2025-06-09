@@ -55,19 +55,13 @@ const DatosUser = () => {
     <div className="dashboard-container user-profile-bg">
       <div className="user-profile-wrapper">
         <div className="dashboard-header">
-          <h1 className="title-h1">Perfil del usuario</h1>
+          <h1 className="title-h1">Perfil de {user.name}</h1>
         </div>
 
         <Card className="datos-container user-profile-card" bordered={false}>
           <div className="user-profile-header">
-            <Avatar size={96} icon={<UserOutlined />} />
+            <Avatar size={16} icon={<UserOutlined />} />
             <div style={{ marginLeft: 24 }}>
-              <h2
-                className="title-h4"
-                style={{ fontSize: 28, marginBottom: 4 }}
-              >
-                {user.name}
-              </h2>
               <Text
                 copyable={{
                   text: user.username,
@@ -75,7 +69,7 @@ const DatosUser = () => {
                   icon: <CopyOutlined style={{ color: "black" }} />,
                 }}
                 type="secondary"
-                style={{ fontSize: 18 }}
+                style={{ fontSize: 38 }}
               >
                 @{user.username}
               </Text>
