@@ -3,6 +3,8 @@ import { FaArrowDown, FaQrcode, FaDownload } from "react-icons/fa";
 export const TransferCard = ({ transfer }) => {
   const esta_enviada = transfer.type === 'Enviada';
 
+  // faltan funciones de descargar comprobantes
+
   return (
     <div className="flex justify-between items-center border-b py-4">
       <div>
