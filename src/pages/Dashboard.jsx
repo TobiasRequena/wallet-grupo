@@ -78,7 +78,6 @@ const Dashboard = () => {
     )) || (
       <div className="dashboard-container">
         <div className="dashboard-top-bar">
-          {console.log(data)}
           <Button
             type="default"
             color="danger"
@@ -92,7 +91,7 @@ const Dashboard = () => {
         </div>
         <div className="dashboard-header">
           <p className="title-h1">
-            Hola <strong>{data.user?.name}</strong>. Bienvenido
+            Hola <strong>{data.name}.</strong> Bienvenido
           </p>
           <div className="img-profile">
             <img
@@ -114,7 +113,7 @@ const Dashboard = () => {
             <div className="dashboard-balance">
               <h1 className="title-h1-balance" style={{ margin: "0" }}>
                 <LuWallet style={{ color: "#1677ff", fontSize: "32px" }} />
-                {data ? `${data.user.balance}` : "Cargando..."}
+                {data ? `${data.balance}` : "Cargando..."}
               </h1>
             </div>
 
