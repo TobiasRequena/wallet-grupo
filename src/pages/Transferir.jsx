@@ -126,7 +126,6 @@ const Transferir = () => {
 
   const handleConfirmarTotp = async (totp) => {
     const userData = sessionStorage.getItem('user');
-    console.log('userData', userData);
 
     if (!userData) {
       message.error('No se encontró información del usuario actual.');
@@ -134,7 +133,6 @@ const Transferir = () => {
     }
 
     const usuarioActual = JSON.parse(userData);
-    console.log('usuarioActual', usuarioActual);
 
     setLoadingConfirmacion(true);
 

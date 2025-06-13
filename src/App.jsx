@@ -14,7 +14,7 @@ import RegistrarSesion from "./pages/Sesión/RegistrarSesión";
 import Transferir from "./pages/Transferir";
 import DetalleMovimiento from "./pages/DetalleMovimiento";
 import DatosUser from "./pages/DatosUser";
-import CambiarContraseña from "./pages/CambiarContraseña";
+import Historial from "./pages/Historial";
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -84,11 +84,12 @@ function App() {
           }
         />
 
+        {/* ruteo al historial (datos aun hardcodeados)*/}
         <Route
-          path="/cambiar-password"
+          path="/historial"
           element={
             <RutaProtegida>
-              <CambiarContraseña />
+              <Historial />
             </RutaProtegida>
           }
         />

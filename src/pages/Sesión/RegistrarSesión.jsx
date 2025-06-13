@@ -48,7 +48,6 @@ const RegistrarSesion = () => {
   };
 
   const handleTotpSuccess = (data) => {
-    console.log('Verificación completa:', data);
     // Redirigir al home, guardar token, etc.
     sessionStorage.setItem('token', data.token);
     navigate('/dashboard')

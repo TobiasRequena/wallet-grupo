@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Endpoints from '../../API/Endpoints'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const { Title } = Typography;
 
@@ -14,7 +15,68 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
 
+  const { loginWithPopup, getIdTokenClaims, getAccessTokenSilently } = useAuth0();
+
   const navigate = useNavigate();
+
+  const handleLoginWithAuth0 = async () => {
+    try {
+      setLoading(true);
+
+      // Abrir popup de login
+      await loginWithPopup();
+
+      // Obtener tokens e información del usuario
+      const accessToken = await getAccessTokenSilently();
+      const idTokenClaims = await getIdTokenClaims();
+      const idToken = idTokenClaims.__raw;
+
+      const payload = {
+        iss: idTokenClaims.iss,
+        sub: idTokenClaims.sub,
+        aud: idTokenClaims.aud,
+        iat: idTokenClaims.iat,
+        exp: idTokenClaims.exp,
+        email: idTokenClaims.email,
+        name: idTokenClaims.name,
+        nickname: idTokenClaims.nickname,
+        given_name: idTokenClaims.given_name,
+        family_name: idTokenClaims.family_name,
+      };
+
+      const tokens = {
+        access_token: accessToken,
+        id_token: idToken,
+        refresh_token: '', // Si lo usás
+        token_type: 'Bearer',
+        expires_in: idTokenClaims.exp - idTokenClaims.iat,
+        scope: idTokenClaims.scope || 'openid profile email',
+      };
+
+      // Autenticar en tu backend
+      const response = await axios.post(Endpoints.getUrl(Endpoints.SESION.AUTH0_AUTHENTICATE), {
+        auth0_payload: payload,
+        auth0_tokens: tokens,
+      });
+
+      if (response.data.success) {
+        sessionStorage.setItem('token', response.data.success);
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        sessionStorage.setItem('balance', response.data.user.balance || 0);
+
+        message.success(response.data.message || 'Inicio de sesión exitoso');
+        navigate('/dashboard');
+      } else {
+        message.error(response.data.message || 'Error en autenticación con Auth0');
+      }
+    } catch (error) {
+      console.error('Error autenticando con Auth0:', error);
+      message.error('Error autenticando con Auth0');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleLogin = async () => {
     if (!alias || !totp) {
@@ -83,7 +145,7 @@ const Login = () => {
           <h5 className="title-h5">TOTP</h5>
           <Input.OTP placeholder="TOTP" value={totp} onChange={setTotp}/>
 
-          <Button style={{ cursor: 'not-allowed' }} disabled type="default" block className="auth0-button">
+          <Button type="default" block className="auth0-button" onClick={handleLoginWithAuth0} loading={loading}>
             Ingresar con Auth0
           </Button>
 

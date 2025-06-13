@@ -5,6 +5,7 @@ const SESION = {
   REGISTER: 'register',
   RECUPERAR: 'regenerate-totp',
   VERIFICAR: 'verify-totp-setup',
+  AUTH0_AUTHENTICATE: 'auth0/authenticate'
 };
 
 const TRANSFERENCIA = {
