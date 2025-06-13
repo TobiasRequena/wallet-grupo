@@ -11,7 +11,8 @@ const SESION = {
 const TRANSFERENCIA = {
   BUSCARALIAS: 'search-users',
   TRANSFERIR: 'transfer',
-  HISTORIAL: 'transactions'
+  HISTORIAL: 'transactions',
+  HISTORIALAUTH: 'auth0/transactions'
 }
 
 const getUrl = (endpoint) => `${BASE_URL}/${endpoint}`;
