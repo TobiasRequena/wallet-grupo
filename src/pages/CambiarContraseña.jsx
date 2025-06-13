@@ -49,7 +49,7 @@ const CambiarContraseña = () => {
   };
 
   const handleCancel = () => {
-    navigate(`/datos-user/${user.user.name}`);
+    navigate(`/datos-user/${user.name}`);
   };
 
   return (

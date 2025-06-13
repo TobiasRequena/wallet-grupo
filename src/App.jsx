@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import RegistrarSesion from "./pages/Sesión/RegistrarSesión";
 import Transferir from "./pages/Transferir";
 import DetalleMovimiento from "./pages/DetalleMovimiento";
+import CambiarContraseña from "./pages/CambiarContraseña";
 import DatosUser from "./pages/DatosUser";
 import Historial from "./pages/Historial";
 
@@ -71,6 +72,15 @@ function App() {
           element={
             <RutaProtegida>
               <DetalleMovimiento />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/cambiar-password"
+          element={
+            <RutaProtegida>
+              <CambiarContraseña />
             </RutaProtegida>
           }
         />

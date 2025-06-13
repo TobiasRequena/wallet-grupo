@@ -29,7 +29,8 @@ const DatosUser = () => {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser.user);
+        console.log("Datos del usuario:", parsedUser);
+        setUser(parsedUser);
       } catch (error) {
         console.error(
           "Error al parsear el usuario desde sessionStorage:",

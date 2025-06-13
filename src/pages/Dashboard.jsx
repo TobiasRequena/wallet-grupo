@@ -36,6 +36,8 @@ const Dashboard = () => {
         const parsedUser = JSON.parse(storedUser);
         setLoading(false);
         setData(parsedUser);
+
+        console.log("Datos del usuario:", parsedUser);
       } catch (error) {
         console.error("Error al parsear los datos del usuario:", error);
       }
@@ -63,7 +65,7 @@ const Dashboard = () => {
   };
 
   const handleDatos = () => {
-    navigate(`/datos-user/${data.user.name}`, { state: data });
+    navigate(`/datos-user/${data.name}`, { state: data });
   };
 
   const handleVerMas = () => {
