@@ -16,6 +16,7 @@ import DetalleMovimiento from "./pages/DetalleMovimiento";
 import DatosUser from "./pages/DatosUser";
 import Historial from "./pages/Historial";
 
+
 function App() {
   const token = sessionStorage.getItem("token");
   const isAuthenticated = token && token !== "undefined" && token !== "";
@@ -89,6 +90,7 @@ function App() {
           path="/historial"
           element={
             <RutaProtegida>
+             
               <Historial />
             </RutaProtegida>
           }

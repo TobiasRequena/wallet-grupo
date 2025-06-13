@@ -50,6 +50,7 @@ const DatosUser = () => {
   const handleRoute = (route) => {
     navigate(route);
   };
+  
 
   return (
     <div className="dashboard-container user-profile-bg">

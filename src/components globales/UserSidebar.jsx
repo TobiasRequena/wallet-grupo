@@ -1,25 +1,36 @@
-export const UserSidebar = ({user}) => {
-  return (
-    <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-sm">
-      <div className="text-right text-sm text-gray-500">
-        <p>{user.name}</p>
-        <p className="text-xs">{user.email}</p>
-      </div>
-    
-      <div className="mt-4 text-sm space-y-1">
-        <p>
-          <span className="text-blue-500 font-semibold">Tu Balance</span>: {user.balance}
-        </p>
-        <p>
-          <span className="text-blue-500 font-semibold">Alias</span>: {user.alias}
-        </p>
-      </div>
+import { Card, Descriptions, Typography, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
-      <button className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-full w-full">
+const { Title } = Typography;
+
+export const UserSidebar = ({user}) => {
+     const navigate = useNavigate();
+     const hanldleGoToDash = ()=>{
+        navigate("/dashboard")
+    }
+  return (
+    <div
+     style={{
+        width: "100%",
+        padding: "12px 16px",
+        margintop: "20px"
+      }}
+    >
+    
+    <Card variant hoverable style={{ width: "100%" }}>
+      <Title level={5}>{user.name}</Title>
+      <p style={{ fontSize: 12, color: "#888" }}>{user.email}</p>
+
+      <Descriptions column={1} size="small" className="mt-4">
+        <Descriptions.Item label="Tu Balance">{user.balance}</Descriptions.Item>
+        <Descriptions.Item label="Alias">{user.alias}</Descriptions.Item>
+      </Descriptions>
+
+      <Button type="primary" block className="mt-4" onClick={hanldleGoToDash}>
         ← Volver a Inicio
-      </button>
+      </Button>
+    </Card>
     </div>
   );
+  
 };
-
-// aca faltaria traner los datos de la db

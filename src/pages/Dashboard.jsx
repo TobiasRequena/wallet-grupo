@@ -70,6 +70,10 @@ const Dashboard = () => {
     setVisibleCount((prev) => prev + 3);
   };
 
+  const handleGoToHistorial = ()=>{
+    navigate("/historial")
+  }
+
   return (
     (loading && (
       <div className="loading-container">
@@ -227,7 +231,7 @@ const Dashboard = () => {
               <Button
                 className="btn-see-historial"
                 type="button"
-                onClick={handleVerMas}
+                onClick={handleGoToHistorial}
               >
                 <FiBookOpen style={{ marginRight: 8 }} />
                 Ver Historial
