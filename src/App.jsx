@@ -1,20 +1,14 @@
-import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Login from "./pages/Sesión/Login";
-import Recuperar from "./pages/Sesión/RecuperarSesión";
-import RutaProtegida from "./routes/RutaProtegida";
-import RutaPublica from "./routes/RutaPublica";
-import Dashboard from "./pages/Dashboard";
-import RegistrarSesion from "./pages/Sesión/RegistrarSesión";
-import Transferir from "./pages/Transferir";
-import DetalleMovimiento from "./pages/DetalleMovimiento";
-import DatosUser from "./pages/DatosUser";
-import CambiarContraseña from "./pages/CambiarContraseña";
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Sesión/Login';
+import Recuperar from './pages/Sesión/RecuperarSesión';
+import RutaProtegida from './routes/RutaProtegida';
+import RutaPublica from './routes/RutaPublica';
+import Dashboard from './pages/Dashboard';
+import RegistrarSesion from './pages/Sesión/RegistrarSesión';
+import Transferir from './pages/Transferir';
+import DetalleMovimiento from './pages/DetalleMovimiento';
+import DatosUser from './pages/DatosUser';
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -80,15 +74,6 @@ function App() {
           element={
             <RutaProtegida>
               <DatosUser />
-            </RutaProtegida>
-          }
-        />
-
-        <Route
-          path="/cambiar-password"
-          element={
-            <RutaProtegida>
-              <CambiarContraseña />
             </RutaProtegida>
           }
         />
