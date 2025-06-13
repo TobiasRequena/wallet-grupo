@@ -59,6 +59,24 @@ const Login = () => {
         auth0_tokens: tokens,
       });
 
+      const historialConfig = {
+        method: 'POST',
+        url: Endpoints.getUrl(Endpoints.TRANSFERENCIA.HISTORIALAUTH),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          email: idTokenClaims.email
+        },
+      };
+
+      const historialResponse = await axios(historialConfig);
+
+      if (historialResponse.data.success) {
+        sessionStorage.setItem('transactions', JSON.stringify(historialResponse.data.transactions));
+        sessionStorage.setItem('balance', historialResponse.data.user.balance);
+      }
+
       if (response.data.success) {
         sessionStorage.setItem('token', response.data.success);
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
