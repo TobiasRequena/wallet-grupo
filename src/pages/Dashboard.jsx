@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Typography, Button, Space, List, Avatar } from 'antd';
-import '../stilos/dasboard.css';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import { LogoutOutlined, WalletOutlined, DollarOutlined, ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from "react";
+import { Card, Typography, Button, Space, List, Avatar } from "antd";
+import "../stilos/dasboard.css";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import {
+  LogoutOutlined,
+  WalletOutlined,
+  DollarOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  EyeFilled,
+} from "@ant-design/icons";
+
+import { LuWallet } from "react-icons/lu";
+import { FiArrowRightCircle } from "react-icons/fi";
+import { FiArrowLeftCircle } from "react-icons/fi";
+import { FiArrowUp, FiArrowDown, FiUser } from "react-icons/fi";
+import { FiBookOpen } from "react-icons/fi";
 
 const { Title, Text } = Typography;
 
@@ -11,18 +24,20 @@ const Dashboard = () => {
   const [data, setData] = useState(null); // null por defecto
   const [transactions, setTransactions] = useState([]);
   const [visibleCount, setVisibleCount] = useState(3);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    const storedTransactions = sessionStorage.getItem('transactions');
-
+    // Verificar si el usuario está autenticado
+    const storedUser = sessionStorage.getItem("user") || {};
+    const storedTransactions = sessionStorage.getItem("transactions");
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        setLoading(false);
         setData(parsedUser);
       } catch (error) {
-        console.error('Error al parsear los datos del usuario:', error);
+        console.error("Error al parsear los datos del usuario:", error);
       }
     }
 
@@ -31,123 +46,198 @@ const Dashboard = () => {
         const parsedTx = JSON.parse(storedTransactions);
         setTransactions(parsedTx);
       } catch (error) {
-        console.error('Error al parsear las transacciones:', error);
+        console.error("Error al parsear las transacciones:", error);
       }
     }
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('id');
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("id");
     sessionStorage.clear();
-    navigate('/sesion/login');
+    navigate("/sesion/login");
   };
 
-	const handleTransferir = () => {
-		navigate('/transferir');
-	}
+  const handleTransferir = () => {
+    navigate("/transferir");
+  };
 
   const handleDatos = () => {
     navigate(`/datos-user/${data.user.name}`, { state: data });
-  }
+  };
 
   const handleVerMas = () => {
-    setVisibleCount(prev => prev + 3);
+    setVisibleCount((prev) => prev + 3);
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1 className="title-h1">RauloCoins</h1>
+    (loading && (
+      <div className="loading-container">
+        <Title level={2}>Cargando...</Title>
       </div>
-
-      <div className="dashboard-card-container">
+    )) || (
+      <div className="dashboard-container">
         <div className="dashboard-top-bar">
-          <h6 className="title-h6" strong>
-            {data ? `Hola, ${data.user?.name}!` : 'Cargando...'}
-          </h6>
           {console.log(data)}
-          <Button 
-            type="default" 
-						color='danger'
-						variant='filled'
-            onClick={handleLogout} 
-            icon={<LogoutOutlined style={{ color: 'red' }} />} 
+          <Button
+            type="default"
+            color="danger"
+            variant="filled"
+            onClick={handleLogout}
+            icon={<LogoutOutlined style={{ color: "BB0A21" }} />}
             iconPosition="end"
           >
+            Cerrar Sesion
           </Button>
         </div>
+        <div className="dashboard-header">
+          <p className="title-h1">
+            Hola <strong>{data.user?.name}</strong>. Bienvenido
+          </p>
+          <div className="img-profile">
+            <img
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              alt="Profile avatar"
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            />
+          </div>
+        </div>
 
-        <Card className="dashboard-card" bodyStyle={{ padding: '12px' }}>
+        <div className="dashboard-card-container">
+          <div className="dashboard-card">
+            <div className="dashboard-card-header">
+              <h6 className="title-h6">
+                Tu Balance <EyeFilled style={{ color: "#BB0A21" }} />
+              </h6>
+            </div>
+
+            <div className="dashboard-balance">
+              <h1 className="title-h1-balance" style={{ margin: "0" }}>
+                <LuWallet style={{ color: "#1677ff", fontSize: "32px" }} />
+                {data ? `${data.user.balance}` : "Cargando..."}
+              </h1>
+            </div>
+
+            <div className="dashboard-actions">
+              <Space size="middle">
+                <div className="send-transfer" onClick={handleTransferir}>
+                  <span className="circle-btn">
+                    <span className="circle-inner">
+                      <FiArrowUp />
+                    </span>
+                  </span>
+                  Transferir
+                </div>
+                <div className="get-transfer">
+                  <span className="circle-btn">
+                    <span className="circle-inner">
+                      <FiArrowDown />
+                    </span>
+                  </span>
+                  Recibir
+                </div>
+                <div className="go-profile" onClick={handleDatos}>
+                  <span className="circle-btn">
+                    <span className="circle-inner">
+                      <FiUser />
+                    </span>
+                  </span>
+                  Ver Perfil
+                </div>
+              </Space>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="dashboard-card"
+          style={{ marginTop: "30px" }}
+          bodyStyle={{ padding: "12px" }}
+        >
           <div className="dashboard-card-header">
-            <h6 className='title-h6' strong>Cuenta en Raulos</h6>
+            <h6 className="title-h6" strong>
+              Historial de transferencias{" "}
+            </h6>
           </div>
+          <hr />
 
-          <div className="dashboard-balance">
-            <h1 className='title-h1-balance' style={{ margin: '0' }}>
-              {data ? `R$ ${data.user.balance}` : 'Cargando...'}
-            </h1>
-						<DollarOutlined style={{ color: 'green', fontSize: '38px' }}/>
+          <List
+            itemLayout="horizontal"
+            dataSource={transactions.slice(0, visibleCount)}
+            renderItem={(item) => {
+              const isReceived = item.type === "received";
+              const icon = isReceived ? (
+                <FiArrowRightCircle style={{ color: "green" }} />
+              ) : (
+                <FiArrowLeftCircle style={{ color: "red" }} />
+              );
+              const user = isReceived ? item.fromName : item.toName;
+              const label = isReceived ? "Recibida" : "Enviada";
+              const fecha = moment
+                .unix(item.createdAt)
+                .format("DD/MM/YYYY HH:mm");
+
+              return (
+                <List.Item
+                  onClick={() =>
+                    navigate("/detalle-transacciones", { state: item })
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  <List.Item.Meta
+                    title={`${user}`}
+                    description={
+                      <>
+                        <div>{fecha}</div>
+                      </>
+                    }
+                  />
+                  <Text
+                    strong
+                    style={{ color: item.type === "sent" ? "red" : "green" }}
+                  >
+                    <span className="transaction-amount">
+                      {" "}
+                      {isReceived ? "+" : "-"} R$ {Math.abs(item.amount)}
+                    </span>
+
+                    <div className="transaction-icon-text">
+                      <i
+                        className="icon-transaction"
+                        style={{ marginRight: 2, fontSize: 25 }}
+                      >
+                        {icon}
+                      </i>
+                      <p className="p-transaction">{label}</p>
+                    </div>
+                  </Text>
+                </List.Item>
+              );
+            }}
+          />
+
+          <div
+            style={{
+              textAlign: "end",
+              marginTop: 12,
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            {visibleCount < transactions.length && (
+              <Button
+                className="btn-see-historial"
+                type="button"
+                onClick={handleVerMas}
+              >
+                <FiBookOpen style={{ marginRight: 8 }} />
+                Ver Historial
+              </Button>
+            )}
           </div>
-
-          <div className="dashboard-actions">
-            <Space size="middle">
-              <Button type="primary" onClick={handleTransferir}>Transferir</Button>
-              <Button onClick={handleDatos}>Ver datos</Button>
-            </Space>
-          </div>
-        </Card>
-      </div>
-
-      <Card className="dashboard-card" style={{ marginTop: '20px' }} bodyStyle={{ padding: '12px' }}>
-        <div className="dashboard-card-header">
-          <h6 className='title-h6' strong>Movimientos recientes</h6>
         </div>
-
-      <List
-        itemLayout="horizontal"
-        dataSource={transactions.slice(0, visibleCount)}
-        renderItem={item => {
-          const isReceived = item.type === 'received';
-          const icon = isReceived ? <ArrowDownOutlined style={{ color: 'green' }} /> : <ArrowUpOutlined style={{ color: 'red' }} />;
-          const user = isReceived ? item.fromName : item.toName;
-          const label = isReceived ? 'Transferencia recibida de' : 'Transferencia enviada a';
-          const fecha = moment.unix(item.createdAt).format('DD/MM/YYYY HH:mm');
-
-          return (
-            <List.Item onClick={() => navigate('/detalle-transacciones', { state: item })} style={{ cursor: 'pointer' }}>
-              <List.Item.Meta
-                avatar={<Avatar icon={icon} />}
-                title={`${label} ${user}`}
-                description={
-                  <>
-                    <div>{fecha}</div>
-                    <div style={{ fontStyle: 'italic', color: 'gray' }}>{item.description}</div>
-                  </>
-                }
-              />
-              <Text strong style={{ color: item.type === 'sent' ? 'red' : 'green' }}>
-                {isReceived ? '+' : '-'} R$ {Math.abs(item.amount)}
-              </Text>
-            </List.Item>
-          );
-        }}
-      />
-
-      <div style={{ textAlign: 'center', marginTop: 12 }}>
-        {visibleCount < transactions.length ? (
-          <Button type="link" onClick={handleVerMas}>
-            Ver más
-          </Button>
-        ) : transactions.length > 3 ? (
-          <Button type="link" onClick={() => setVisibleCount(3)}>
-            Ver menos
-          </Button>
-        ) : null}
       </div>
-
-      </Card>
-    </div>
+    )
   );
 };
 
